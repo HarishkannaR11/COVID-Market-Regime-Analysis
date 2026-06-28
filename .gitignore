@@ -20,6 +20,7 @@ Desktop.ini
 data/
 experiments/
 Neurofinance/
+paper/
 docs/
 .env
 *.csv
