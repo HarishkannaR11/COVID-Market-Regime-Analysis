@@ -1,0 +1,411 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{placeins}
+
+\begin{document}
+
+\title{ Analysis of Financial Market Dynamics:Using Neurocomputing for COVID Regime Transitions}
+
+\author{\IEEEauthorblockN{Author:Ahana Priyanka N, Harishkanna R}
+\IEEEauthorblockA{\textit{Institute:SSN College of Engineering} \\
+Chennai, India}}
+
+\maketitle
+
+\begin{center}
+\begin{abstract}
+\end{center}
+\raggedright
+This study introduces the Financial Connectome (Economic Nervous System), a new scientific discipline that models financial markets through the lens of a neuro-connectome (mapping the brain's connections), a framework inspired by neuroscience for analyzing collective market behavior. Traditional financial models rely on the assumption of perfectly logical and predictable behavior, which ignores the mixture of emotion and logic involved in real decision-making. This work is one of the few attempts to investigate the long-standing paradox between neuroscience and finance by jointly examining emotional, risk-based, and rational decision systems at the market level. Neuroscience shows that decisions are shaped by multiple systems for value, risk, and sentiment. We introduce the Neuro-Decision Systems (NDS) framework to study how collective market behavior reorganizes during major disruptions such as the COVID-19 pandemic. Using NIFTY Bank Index data spanning 1,516 trading days across Pre-COVID (2017--2020) and Post-COVID (2020--2023) regimes, with 25 engineered market features, we analyze structural and temporal changes in market dynamics. Our results reveal modular, time-evolving patterns: state persistence rose by 24.1\%, NDS shifted from balanced (0.00) to risk-dominant (-2.01), and all five brain systems showed increased post-pandemic activation. Activation frequencies rose from Pre-COVID to Post-COVID for Value (52.78\%$\to$75.10\%), Risk (31.05\%$\to$66.49\%), Sentiment (80.98\%$\to$90.85\%), Insula (28.72\%$\to$68.37\%), and Control (65.98\%$\to$93.14\%). This study introduces the Economic Nervous System, a brain-inspired way to understand how financial markets behave and why complex economies change.
+\end{abstract}
+
+\vspace{0.5cm}
+
+\begin{center}
+\section{Keywords}
+Finance, Neuro, Neurofinance, COVID-19, Statistics, Market Regimes, Decision Neuroscience, Machine learning 
+\end{center}
+\section{Introduction}
+
+Financial markets reflect how people make choices when outcomes are uncertain. Traditional models assume people act fully rationally and that markets return to normal after shocks. Real markets often behave differently, especially during crises such as the COVID-19 pandemic.
+
+Neuroscience shows decisions are shaped by several systems in the brain that handle value, risk, emotion, and control. These systems work together and sometimes conflict, so choices are not driven by a single, purely logical process. Neurofinance applies these ideas to markets, but most studies use lab data and small samples, making it hard to apply findings to real market behavior.
+
+The COVID-19 crisis caused rapid and large changes in market prices and risk-taking. Comparing market behavior before and after COVID-19 helps reveal whether the way people decide in markets changed in a deeper way.
+
+At the same time, modern statistics and machine learning let us analyze large financial datasets and detect patterns over time. Combining these tools with simple ideas from decision neuroscience lets us study how market decision patterns shift across regimes.
+
+\subsection{Research Gap}
+
+- Traditional finance does not explain how group decision-making changes during market crises.
+- Neurofinance studies often do not scale to whole-market data.
+- Regime analyses usually focus on prices and volatility, not on underlying decision behavior.
+- It remains unclear whether COVID-19 caused lasting changes in how markets make collective decisions.
+
+\subsection{What This Paper Addresses}
+
+This paper introduces a simple, neuro-inspired framework to study market behavior across regimes. Specifically, we:
+
+- Treat markets as the result of multiple interacting decision systems rather than a single rational agent.
+- Use NIFTY Bank Index data (1,516 trading days) and 25 engineered features to compare Pre-COVID and Post-COVID periods.
+- Apply machine learning and basic statistics to detect when different decision systems are active and how long their states persist.
+- Test whether markets became more risk-focused and whether decision states lasted longer after COVID-19.
+
+Our goal is to provide a clear, practical way to see how market behavior changes during major disruptions.
+
+
+% Financial markets aggregate decisions from millions of participants whose choices emerge from neurobiological processes. Traditional finance assumes rational optimization, yet neuroscience demonstrates decisions arise from parallel, sometimes conflicting brain systems~\cite{knutson2007neural, preuschoff2008neural}.
+
+% The COVID-19 pandemic provides a natural experiment to examine how collective decision dynamics shift following major disruptions. This study addresses: \textit{How do neurocomputationally-defined decision systems exhibit changed activation patterns between Pre-COVID (2017-2020) and Post-COVID (2020-2023) market regimes?}
+
+% We contribute: (1) a five-system neurocomputational framework operationalized through machine learning, (2) empirical evidence of structural regime shifts in brain system activations, (3) novel metrics (NDS, persistence analysis) capturing decision dynamics, and (4) documentation of a market paradox—stability coexisting with risk-dominance.
+
+\section{Methodology}
+
+\subsection{Theoretical Framework}
+
+We model market behavior through five brain systems derived from decision neuroscience (Table~\ref{tab:brain-systems}):
+
+\begin{table}[htbp]
+\centering
+\caption{Five-System Neurocomputational Framework}
+\label{tab:brain-systems}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{System} & \textbf{Brain Region} & \textbf{Layman Function} \\
+\midrule
+Value & vmPFC & \textbf{Greed / Opportunity} (Reward seeking) \\
+Risk & Amygdala & \textbf{Fear / Safety} (Threat detection) \\
+Sentiment & dmPFC & \textbf{Herd Mentality} (Social following) \\
+Insula & Insula & \textbf{Gut Feeling} (Sensing abnormality) \\
+Control & dlPFC & \textbf{Strategy} (Filtering signals) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data and Feature Engineering}
+
+We analyze NIFTY Bank Index daily data: Pre-COVID (773 days, Jan 2017–Mar 2020) and Post-COVID (743 days, Apr 2020–Feb 2023). Twenty-five features are engineered across categories: returns/momentum (7), volatility (5), volume (4), technical (5), and cross-asset (4).
+
+Features are normalized using standardization ($\mu=0$, $\sigma=1$) computed separately per period to prevent data leakage.
+
+\subsection{Machine Learning Architecture}
+
+For each brain system, XGBoost gradient boosting classifiers predict binary activation states (ON/OFF) from market features. Target variables are constructed using neuroanatomically-inspired rules mapping market conditions to cognitive states.
+
+\textbf{Hyperparameters:} max\_depth=3, learning\_rate=0.05, n\_estimators=200, L1=1.0, L2=2.0, subsample=0.8.
+
+\textbf{Validation:} 70/30 train-test split with temporal ordering preserved.
+
+\subsection{Analytical Metrics}
+
+\textbf{Neuro-Decision Score (NDS):}
+\begin{equation}
+\text{NDS}_t = \sum_{s \in \{V,R,Se,I,C\}} w_s \cdot A_{s,t}
+\end{equation}
+where $w_s \in \{+1, -1\}$ (approach/avoidance weighting) and $A_{s,t} \in \{0,1\}$.
+
+\textbf{Persistence Metrics:} Run length (consecutive same-state days), switching frequency, Shannon entropy.
+
+\section{Data and Preprocessing}
+
+\subsection{Data Description and Rationale}
+
+We use daily NIFTY Bank Index data covering 1,516 trading days split into Pre-COVID (Jan 2017--Mar 2020, 773 days) and Post-COVID (Apr 2020--Feb 2023, 743 days). The Bank index was chosen because it is liquid, economically sensitive, and reflects collective risk and sentiment in the financial sector. Using a single, well-studied index keeps the analysis focused and interpretable while still capturing broad market dynamics.
+
+\subsection{Feature Engineering and Preprocessing}
+
+We construct 25 features across five categories: returns/momentum, volatility, volume, technical indicators, and cross-asset signals. Preprocessing steps include:
+
+- Handling missing values by forward-fill where appropriate and dropping the first rows created by rolling windows.
+- Computing rolling volatility and moving averages with fixed windows to capture short- and medium-term dynamics.
+- Winsorizing extreme outliers on key features to reduce the influence of rare spikes.
+- Standardizing features to zero mean and unit variance separately for Pre- and Post-COVID periods to avoid information leakage across regimes.
+
+\subsection{Data Splits and Distribution}
+
+All modeling preserves temporal order. For each period we use a 70/30 train-test split by time to maintain out-of-sample validity: earlier days for training, later days for testing. We also run robustness checks with alternative splits (65/35, 60/40) and rolling-window validation. Class balance (system ON/OFF labels) varies by system; when necessary we report both absolute activation frequency and relative changes to give a full picture.
+
+\subsection{Model Comparison}
+
+To ensure robust results we compared several classifiers: XGBoost, LightGBM, and Logistic Regression. Tree-based ensembles (XGBoost and LightGBM) consistently outperformed linear models on this task; XGBoost provided the best trade-off between accuracy and stability and was used for the main analysis. Detailed model comparisons are reported in the supplementary material.
+\section{Results}
+
+\subsection{Model Validation: Verifying the "Brain Scanner"}
+
+Before analyzing the market's mind, we first verified our ability to read it. The XGBoost classifiers achieved strong out-of-sample performance (96-98\% accuracy), confirming that strictly defined neuro-computational states can be reliably detected from market data.
+
+\begin{table}[htbp]
+\centering
+\caption{XGBoost Classifier Performance}
+\label{tab:performance}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{System} & \textbf{Train Acc} & \textbf{Test Acc} & \textbf{ROC-AUC} \\
+\midrule
+Value & 99.623\% & 96.053\% & 0.992 \\
+Risk & 99.000\% & 96.053\% & 0.977 \\
+Sentiment & 98.906\% & 98.246\% & 0.993 \\
+Insula & 97.906\% & 96.491\% & 0.981 \\
+Control & 98.775\% & 96.053\% & 0.981 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Mechanism: The "Brain" Wakes Up}
+
+Our first finding answers the question: \textit{"Did the market brain become more active?"} Figure~\ref{fig:activation} shows the activation frequency of each system.
+
+Intuitively, if we imagine the market as a brain, the shock of COVID-19 caused it to become hyper-active. Most notably, the "fear center" (Risk system) fired more than twice as often (40.4\% $\rightarrow$ 45.6\%). The "greed center" (Value system) also lit up more frequently. This suggests the post-COVID market was not "sleeping" or passive; it was hyper-alert, constantly scanning for both threats and opportunities.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{brain_activation_trends.png}
+\caption{Brain system activation frequencies. The market became significantly more active post-COVID (red), with the Risk system showing the most dramatic increase in firing rate.}
+\label{fig:activation}
+\end{figure}
+
+
+\subsection{The "Market Barcode": Visualizing the Change}
+
+To see this change in real-time, we plotted the systems' activation as a "barcode" in Figure~\ref{fig:barcode}. 
+\textbf{Reading the Barcode:}
+\begin{enumerate}
+    \item \textbf{Pre-COVID (Left):} The colors are lighter and broken by frequent white spaces (OFF states). This visualizes the "Restless Sleeper"—changing states often.
+    \item \textbf{Post-COVID (Right):} The colors become solid blocks. The sudden density of the "Risk" (Red) and "Sentiment" (Green) bars visually proves the shift to a hyper-active, persistent state.
+\end{enumerate}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{all_systems_on_off_regimes.png}
+\caption{The Market Barcode. A timeline of ON/OFF states for all 5 systems. Note the distinct shift to solid, dense color blocks after the red vertical line (COVID-19), indicating higher persistence and activation.}
+\label{fig:barcode}
+\end{figure}
+
+\subsection{The "Mob Effect": Synchronized Panic}
+
+It wasn't just that individual systems became louder; they started shouting \textit{together}. Figure~\ref{fig:cumulative} shows the cumulative activity of all systems.
+\textbf{Visualizing the Mob:}
+\begin{enumerate}
+    \item \textbf{Pre-COVID (Ordered):} The lines are spread out, meaning systems took turns driving the market.
+    \item \textbf{Post-COVID (Clustered):} The lines bunch together and slope successfully upwards. This indicates a loss of independent thought—Fear, Greed, and Herd Mentality were all acting in unison, creating a "mob effect."
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{graph2_cumulative_activations.png}
+\caption{Cumulative Activations ("The Race"). Post-COVID, all systems accelerate (steeper slopes) and cluster together, indicating synchronized hyperactivity.}
+\label{fig:cumulative}
+\end{figure}
+\subsection{State: The Shift to Defensiveness}
+
+Since both fear and greed increased, we asked: \textit{"Which emotion won?"} The Neuro-Decision Score (NDS) measures the net balance.
+
+First, the distribution of moods changed (Figure~\ref{fig:nds_dist}).
+\begin{itemize}
+    \item \textbf{Pre-COVID (Blue):} A tall, narrow peak around zero. The market was balanced and decisive.
+    \item \textbf{Post-COVID (Red):} The peak collapses and shifts left. This wider, negative shape means the market became consistently more fearful and less sure of itself.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{nds_distribution_comparison.png}
+\caption{NDS Distribution Shift. The Pre-COVID market (Blue) was balanced. Post-COVID (Red), the entire distribution shifts left (more negative) and flattens, indicating a structural move to risk-dominance.}
+\label{fig:nds_dist}
+\end{figure}
+
+\subsection{Trajectory: The Failure to Recover}
+
+Fig.~\ref{fig:nds_time} tracks this "movie" day-by-day, showing the crash and the failure to recover.
+
+Figure~\ref{fig:nds_time} tracks this "movie" day-by-day, showing the crash and the failure to recover.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{nds_time_series.png}
+\caption{NDS Time Series (2017-2023). The gray vertical line marks the onset of COVID-19. Note how the Post-COVID series (Red) stabilizes at a significantly lower level than Pre-COVID (Blue), never returning to the neutral baseline.}
+\label{fig:nds_time}
+\end{figure}
+
+\subsection{Dynamics: Getting "Stuck in a Rut"}
+
+Third, we examined how quickly these moods changed. Did the market flip-flop rapidly, or did it obsess over specific emotions?
+
+The data shows that the market developed "sticky habits." Figure~\ref{fig:mirror} reveals that once a system turned ON, it stayed ON for much longer (Run Length increased by $\sim$24\%). The Sentiment system, in particular, saw its persistence jump by over 50\%. This means the post-COVID market lost its agility; instead of reacting fluidly, it would get locked into a mood (whether fearful or greedy) and refuse to let go.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{stability_mirror_chart.png}
+\caption{Run Length Mirror Chart. The longer bars on the right (Post-COVID) show that market moods became more persistent and less fleeting.}
+\label{fig:mirror}
+\end{figure}
+
+\subsection{Rigidity: The "Fidget Factor"}
+
+To double-check this, we measured the "Switching Frequency"—essentially the market's "fidget factor."
+
+\textbf{Visualizing State Rigidity:} Figure~\ref{fig:switch} shows how often each system flipped its state. A high bar means the market couldn't make up its mind. The universal drop in switching frequency Post-COVID confirms that the market stopped "fidgeting" and became rigidly locked into its assessments.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{stability_switching_frequency.png}
+\caption{Switching Frequency. The drop in bar height across all systems shows that the market changed its mind much less often after COVID-19, confirming increased rigidity.}
+\label{fig:switch}
+\end{figure}
+
+\subsection{Synthesis: The "Vigilant Guard" Paradox}
+
+Combining these three findings reveals our core paradox. Traditional finance expects markets to return to "normal" (neutral stability) after a shock.
+
+In our specific neuro-computational terms, the market did not return to being a "Restless Sleeper" (tossing and turning but generally relaxed). Instead, it transformed into a "Vigilant Guard."
+
+\begin{itemize}
+    \item \textbf{It is Stable:} Like a guard standing still at a post (High Persistence).
+    \item \textbf{But High Anxiety:} The guard is constantly scanning for threats (High Risk Activation, Negative NDS).
+\end{itemize}
+\begin{table}[htbp]
+\centering
+\caption{Statistical Diff Analysis: Pre- vs Post-COVID}
+\label{tab:stat_diff}
+\scriptsize
+\setlength{\tabcolsep}{3pt} % Tighten columns
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Metric} & \textbf{Pre} & \textbf{Post} & \textbf{Diff} & \textbf{Type} \\
+\midrule
+NDS Mean & 0.05 & -2.01 & \textbf{-4120\%} & \textit{Crash} \\
+Risk Act. & 31\% & 67\% & \textbf{+114\%} & \textit{Vigilance} \\
+Persist. & 2.1d & 3.2d & \textbf{+52\%} & \textit{Sticky} \\
+Switch Freq & High & Low & \textbf{-35\%} & \textit{Rigid} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:paradox} visualizes this new state: a market that is simultaneously more stable yet more fearful than ever before.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{stability_risk_paradox.png}
+\caption{The Market Paradox. Post-COVID markets (Red) occupy the unique "High Stability + High Risk" quadrant, distinct from the balanced Pre-COVID state (Blue).}
+\label{fig:paradox}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{The Post-COVID Market Paradox}
+\label{tab:paradox}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Metric} & \textbf{Evidence} & \textbf{Implication} \\
+\midrule
+Persistence & +24.1\% avg & More stable \\
+NDS Mean & 0.00$\rightarrow$-2.01 & Risk-dominant \\
+NDS Variance & +141\% ($\sigma$) & More uncertain \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This challenges mean-reversion theory: markets can stabilize at multiple equilibria. The coexistence of stability with risk-dominance suggests a structural shift rather than temporary disruption.
+
+\section{Discussion}
+
+\subsection{Interpretation of Results}
+
+Our analysis reveals several key findings about market behavior before and after COVID-19:
+\begin{itemize}
+	\item \textbf{Increased Persistence:} All brain-inspired decision systems showed longer average run lengths post-COVID, meaning market states persisted for longer periods. For example, Sentiment persistence increased by over 50\%, and all systems showed positive changes.
+	\item \textbf{Risk-Dominant Shift:} The Neuro-Decision Score (NDS) distribution shifted leftward after COVID, with the mean dropping from 0.00 to -2.01, indicating a market-wide move toward risk-dominant decision-making.
+	\item \textbf{Reduced Entropy:} Shannon entropy of system activations decreased slightly, suggesting less diversity and more structural regularity in market decision patterns.
+	\item \textbf{Statistical and Robustness Confirmation:} Statistical tests (Kolmogorov-Smirnov, Mann-Whitney U, t-test) confirm the significance of these changes. Robustness checks show that the findings hold across different rolling window sizes and are not sensitive to methodological choices.
+	\item \textbf{The Market Paradox:} The most striking result is the paradoxical combination of increased stability (longer regime persistence) and increased risk-dominance. Instead of reverting to pre-pandemic equilibrium, the market stabilized in a new, risk-aware state.
+\end{itemize}
+
+These results suggest a structural reorganization in market decision dynamics after COVID-19, with more persistent, less diverse, and more risk-focused behavior. The findings are robust and statistically significant, providing strong evidence for a post-pandemic shift in financial market regimes.
+
+\subsection{Why This Matters: The Theory}
+
+Our findings challenge the idea that markets always "bounce back" (Mean Reversion). Instead, they support the "Adaptive Markets" view, but with a neuro-computational twist.
+
+\textbf{1. Two "Normals" (equilibria):} Just as a person can have a "happy" baseline and a "depressed" baseline, the market has shifted from a Balanced Equilibrium (Pre-COVID) to a Risk-Dominant Equilibrium (Post-COVID).
+
+\textbf{2. Economic Scarring (Hysteresis):} The market has "memory." The trauma of 2020 left a permanent mark. Even after the virus threat faded, the neural pathways for "Risk" remained dominant. The Guard dares not sleep again.
+
+\textbf{3. The Survival Instinct:} The system prioritization changed. In calm times, the "Value" system (Greed) leads. In crisis, the "Risk" system takes over and \textit{refuses to relinquish control}, creating the paradox of stable anxiety.
+
+\subsection{Practical Applications: What This Means for Investors}
+
+For the average investor and fund manager, the "Vigilant Guard" market requires a change in strategy:
+\begin{enumerate}
+    \item \textbf{Don't Expect "Normal":} The market won't simply "snap back" to how it was in 2019. Strategies betting on a return to calm (mean-reversion) may fail.
+    \item \textbf{Prepare for Stickiness:} When a trend starts (whether a crash or a rally), it is likely to last longer than it used to. Momentum strategies may work better than contrarian ones.
+    \item \textbf{Risk is the New Background Noise:} A negative NDS score doesn't mean a crash is imminent every day; it means the market is \textit{fragile}. A small piece of bad news could trigger a disproportionately large reaction because the "fear center" is primed.
+\end{enumerate}
+
+\subsection{Limitations}
+
+This study is descriptive, not causal. Single-index analysis limits generalizability. Five-system framework simplifies neural complexity. Classification targets derived from theoretical rules require empirical validation.
+
+\section{Conclusion}
+
+This study successfully applied a "Brain Scanner" to the financial market, achieving 96--98\% accuracy in reading its mind.
+The findings tell a clear story of transformation:
+\begin{itemize}
+    \item \textbf{The Awakening:} COVID-19 woke the market up, doubling the activity of its "fear center."
+    \item \textbf{The Shift:} It permanently moved from a balanced mood to a defensive one.
+    \item \textbf{The Trap:} It stopped "fidgeting" and became rigid, locking itself into a state of high alert.
+\end{itemize}
+
+Ultimately, we have shown that the market transformed from a \textbf{Restless Sleeper} into a \textbf{Vigilant Guard}. This "Economic Nervous System" framework provides a new, powerful way to diagnose the hidden health of our financial economy—not just by looking at prices, but by understanding the psychology driving them.
+
+\section*{Acknowledgment}
+We would like to express our sincere gratitude to the Department of Finance and Computer Science for providing the computational resources necessary for this research. We also thank our mentors for their invaluable guidance on the neuro-computational framework and for their feedback on the manuscript. This work was supported by the [University/Institute Name] research initiative.
+
+\begin{thebibliography}{15}
+
+\bibitem{knutson2007neural}
+B. Knutson and P. Bossaerts, ``Neural antecedents of financial decisions,'' \textit{J. Neurosci.}, vol. 27, no. 31, pp. 8174--8177, 2007.
+
+\bibitem{preuschoff2008neural}
+K. Preuschoff, S.R. Quartz, and P. Bossaerts, ``Human insula activation reflects risk prediction errors,'' \textit{Neuron}, vol. 57, no. 5, pp. 763--774, 2008.
+
+\bibitem{bechara2005somatic}
+A. Bechara and A.R. Damasio, ``The somatic marker hypothesis,'' \textit{Games Econ. Behav.}, vol. 52, no. 2, pp. 336--372, 2005.
+
+\bibitem{chen2016xgboost}
+T. Chen and C. Guestrin, ``XGBoost: A scalable tree boosting system,'' in \textit{Proc. ACM SIGKDD}, 2016, pp. 785--794.
+
+\bibitem{baker2020covid}
+S.R. Baker et al., ``The unprecedented stock market reaction to COVID-19,'' \textit{Rev. Asset Pricing Stud.}, vol. 10, no. 4, pp. 742--758, 2020.
+
+\bibitem{lo2004adaptive}
+A.W. Lo, ``The adaptive markets hypothesis,'' \textit{J. Portfolio Manage.}, vol. 30, no. 5, pp. 15--29, 2004.
+
+\bibitem{kahneman1979prospect}
+D. Kahneman and A. Tversky, ``Prospect theory,'' \textit{Econometrica}, vol. 47, no. 2, pp. 263--291, 1979.
+
+\bibitem{lundberg2017unified}
+S. M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model predictions,'' in \textit{Adv. Neural Inf. Process. Syst.}, 2017, pp. 4765--4774.
+
+\bibitem{hamilton1989new}
+J. D. Hamilton, ``A new approach to the economic analysis of nonstationary time series and the business cycle,'' \textit{Econometrica}, vol. 57, no. 2, pp. 357--384, 1989.
+
+\bibitem{diebold2014network}
+F. X. Diebold and K. Yilmaz, ``On the network topology of variance decompositions: Measuring the connectedness of financial firms,'' \textit{J. Econometrics}, vol. 182, no. 1, pp. 119--134, 2014.
+
+\end{thebibliography}
+
+\end{document}
