@@ -15,3 +15,12 @@ __pycache__/
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Heavy / Private Data
+data/
+experiments/
+results/
+Neurofinance/
+.env
+*.csv
+*.xlsx

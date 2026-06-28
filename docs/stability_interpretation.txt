@@ -1,0 +1,22 @@
+STABILITY ANALYSIS INTERPRETATION
+===================================
+
+Run Length Analysis:
+
+The analysis of state persistence reveals the following temporal patterns. Average run lengths for Pre-COVID versus Post-COVID periods show:
+
+- Value: 4.82 → 5.57 days (increased 15.6%)
+- Risk: 4.32 → 4.54 days (increased 5.0%)
+- Sentiment: 20.06 → 30.64 days (increased 52.7%)
+- Insula: 2.44 → 2.90 days (increased 18.8%)
+- Control: 7.32 → 9.38 days (increased 28.3%)
+
+Activation Entropy:
+
+Shannon entropy of activation proportions decreased from 2.290 bits (Pre-COVID) to 2.279 bits (Post-COVID), representing a change of 0.011 bits (0.5%).
+
+Academic Summary:
+
+Run length analysis indicates longer average run lengths indicate increased state persistence in the Post-COVID period. Concurrently, activation entropy analysis reveals decreased entropy indicates reduced diversity in activation patterns, suggesting structural changes in the temporal dynamics of market decision states. These findings document quantifiable shifts in state persistence and switching behavior following COVID-19, without implying directional predictions or trading signals.
+
+Note: This analysis measures temporal persistence only and does not constitute trading advice or claims about investor psychology.
