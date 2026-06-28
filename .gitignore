@@ -22,6 +22,7 @@ experiments/
 results/
 Neurofinance/
 paper/
+docs/
 .env
 *.csv
 *.xlsx
